@@ -142,7 +142,24 @@ class RandomWalk:
             self.y_values.append(y)
 
 # 15-6. Two D8s: Create a simulation showing what happens when you roll two eight-sided dice 1000 times. Try to picture what you think the visualization will look like before you run the simulation; then see if your intuition was correct. Gradually increase the number of rolls until you start to see the limits of your system’s capabilities.
+from die import Die
 
+die_1 = Die(8)
+die_2 = Die(8)
+rolls = []
+
+for i in range(1000):
+    total = die_1.roll() + die_2.roll()
+    rolls.append(total)
+
+max_roll = die_1.num_sides + die_2.num_sides
+frequencies = []
+
+for num in range(2, max_roll):
+    frequency = rolls.count(num)
+    frequencies.append(frequency)
+
+print(frequencies)
 # 15-7. Three Dice: When you roll three D6 dice, the smallest number you can roll is 3 and the largest number is 18. Create a visualization that shows what hap- pens when you roll three D6 dice.
 
 # 15-8. Multiplication: When you roll two dice, you usually add the two numbers together to get the result. Create a visualization that shows what happens if you multiply these numbers instead.
