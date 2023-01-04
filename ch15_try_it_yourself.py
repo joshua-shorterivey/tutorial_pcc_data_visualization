@@ -142,6 +142,9 @@ class RandomWalk:
             self.y_values.append(y)
 
 # 15-6. Two D8s: Create a simulation showing what happens when you roll two eight-sided dice 1000 times. Try to picture what you think the visualization will look like before you run the simulation; then see if your intuition was correct. Gradually increase the number of rolls until you start to see the limits of your system’s capabilities.
+from plotly.graph_objs import Bar, Layout
+from plotly import offline
+
 from die import Die
 
 die_1 = Die(8)
@@ -155,14 +158,73 @@ for i in range(1000):
 max_roll = die_1.num_sides + die_2.num_sides
 frequencies = []
 
-for num in range(2, max_roll):
+for num in range(2, max_roll+1):
     frequency = rolls.count(num)
     frequencies.append(frequency)
 
-print(frequencies)
+#visualize the results
+x_values = list(range(2, max_roll+1))
+data = [Bar(x=x_values, y=frequencies)]
+
+x_axis_config = {'title': 'Result', 'dtick': 1}
+y_axis_config = {'title': 'Frequency of Result'}
+my_layout = Layout(title='Results of rolling two D8 dice 1000 times', 
+            xaxis=x_axis_config, yaxis=y_axis_config)
+offline.plot({'data': data, 'layout': my_layout}, filename='d8_d8.html')
+
 # 15-7. Three Dice: When you roll three D6 dice, the smallest number you can roll is 3 and the largest number is 18. Create a visualization that shows what hap- pens when you roll three D6 dice.
 
+die_1 = Die()
+die_2 = Die()
+die_3 = Die()
+rolls = []
+
+for i in range(1000):
+    total = die_1.roll() + die_2.roll() + die_3.roll()
+    rolls.append(total)
+
+max_roll = die_1.num_sides * 3
+frequencies = []
+
+for num in range(2, max_roll+1):
+    frequency = rolls.count(num)
+    frequencies.append(frequency)
+
+#visualize the results
+x_values = list(range(1, max_roll+1))
+data = [Bar(x=x_values, y=frequencies)]
+
+x_axis_config = {'title': 'Result', 'dtick': 1}
+y_axis_config = {'title': 'Frequency of Result'}
+my_layout = Layout(title='Results of rolling three D6 dice 1000 times', 
+            xaxis=x_axis_config, yaxis=y_axis_config)
+offline.plot({'data': data, 'layout': my_layout}, filename='d6_d6x3.html')
+
 # 15-8. Multiplication: When you roll two dice, you usually add the two numbers together to get the result. Create a visualization that shows what happens if you multiply these numbers instead.
+die_1 = Die()
+die_2 = Die()
+rolls = []
+
+for i in range(1000):
+    total = die_1.roll() * die_2.roll()
+    rolls.append(total)
+
+max_roll = die_1.num_sides * die_2.num_sides
+frequencies = []
+
+for num in range(1, max_roll+1):
+    frequency = rolls.count(num)
+    frequencies.append(frequency)
+
+#visualize the results
+x_values = list(range(1, max_roll+1))
+data = [Bar(x=x_values, y=frequencies)]
+
+x_axis_config = {'title': 'Result', 'dtick': 1}
+y_axis_config = {'title': 'Frequency of Result'}
+my_layout = Layout(title='Results of rolling two D8 dice 1000 times', 
+            xaxis=x_axis_config, yaxis=y_axis_config)
+offline.plot({'data': data, 'layout': my_layout}, filename='d8_d8.html')
 
 # 15-9. Die Comprehensions: For clarity, the listings in this section use the long form of for loops. If you’re comfortable using list comprehensions, try writing a comprehension for one or both of the loops in each of these programs.
 
