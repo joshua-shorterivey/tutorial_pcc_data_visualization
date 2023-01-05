@@ -228,4 +228,10 @@ offline.plot({'data': data, 'layout': my_layout}, filename='d8_d8.html')
 
 # 15-9. Die Comprehensions: For clarity, the listings in this section use the long form of for loops. If you’re comfortable using list comprehensions, try writing a comprehension for one or both of the loops in each of these programs.
 
+#first loop
+first_loop = [(die_1.roll() * die_2.roll()) for i in range(1001)]
+
+#second loop 
+second_loop = [rolls.count(x) for x in range(1, max_roll+1)]
+
 # 15-10. Practicing with Both Libraries: Try using Matplotlib to make a die-rolling visualization, and use Plotly to make the visualization for a random walk. (You’ll need to consult the documentation for each library to complete this exercise.)
