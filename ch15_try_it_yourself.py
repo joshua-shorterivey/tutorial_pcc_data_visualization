@@ -239,3 +239,24 @@ second_loop = [rolls.count(x) for x in range(1, max_roll+1)]
 #die-rolling with matplot lib
 ax.bar(x_values, frequencies, width=1, edgecolor="white", linewidth=0.7)
 plt.show()
+
+#random walk with plotly
+rw = RandomWalk()
+rw.fill_walk()
+
+#plot the points in the walk. 
+x = rw.x_values
+y = rw.y_values
+
+fig = go.Figure(data=go.Scatter(
+    x=x,
+    y=y, 
+    mode='markers',
+    marker=dict(
+        color=np.arange(rw.num_points),
+        size=8,
+        colorscale='Greens',
+        showscale=True)
+    )
+)
+fig.show()
