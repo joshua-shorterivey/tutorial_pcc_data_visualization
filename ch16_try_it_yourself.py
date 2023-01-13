@@ -146,3 +146,12 @@ ax.set_ylabel('Temperatures (F)', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=16)
 
 plt.show()
+
+# 16-4. Automatic Indexes: In this section, we hardcoded the indexes
+# corresponding to the TMIN and TMAX columns. Use the header row to determine
+# the indexes for these values, so your program can work for Sitka or Death
+# Valley. Use the station name to automatically generate an appropriate title
+# for your graph as well.
+
+# 16-5. Explore: Generate a few more visualizations that examine any other
+# weather aspect you’re interested in for any locations you’re curious about.
