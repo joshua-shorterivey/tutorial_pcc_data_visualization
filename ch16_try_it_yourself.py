@@ -157,7 +157,25 @@ plt.show()
 # weather aspect you’re interested in for any locations you’re curious about.
 
 
-# 16-6. Refactoring: The loop that pulls data from all_eq_dicts uses variables for the magnitude, longitude, latitude, and title of each earthquake before append- ing these values to their appropriate lists. This approach was chosen for clar- ity in how to pull data from a JSON file, but it’s not necessary in your code. Instead of using these temporary variables, pull each value from eq_dict and append it to the appropriate list in one line. Doing so should shorten the body of this loop to just four lines.
+# 16-6. Refactoring: The loop that pulls data from all_eq_dicts uses variables for the magnitude, longitude, latitude, and title of each earthquake before appending these values to their appropriate lists. This approach was chosen for clarity in how to pull data from a JSON file, but it’s not necessary in your code. Instead of using these temporary variables, pull each value from eq_dict and append it to the appropriate list in one line. Doing so should shorten the body of this loop to just four lines.
+import json
+
+#explore the structure of the data. 
+filename = 'data/eq_data_1_day_m1.json'
+with open(filename) as f:
+    all_eq_data = json.load(f)
+
+all_eq_dicts = all_eq_data['features']
+
+mags, lons, lats= [], [], []
+for eq_dict in all_eq_dicts:
+    mags.append(eq_dict['properties']['mag'])
+    lons.append(eq_dict['geometry']['coordinates'][0])
+    lats.append(eq_dict['geometry']['coordinates'][1])
+
+print(mags[:10])
+print(lons[:5])
+print(lats[:5])
 
 # 16-7. Automated Title: In this section, we specified the title manually when defin- ing my_layout, which means we have to remember to update the title every time the source file changes. Instead, you can use the title for the data set in the metadata part of the JSON file. Pull this value, assign it to a variable, and use this for the title of the map when you’re defining my_layout.
 
