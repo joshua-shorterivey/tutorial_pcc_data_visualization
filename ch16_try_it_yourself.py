@@ -181,6 +181,75 @@ print(lats[:5])
 my_title = all_eq_data['metadata']['title']
 
 # 16-8. Recent Earthquakes: You can find data files containing information about the most recent earthquakes over 1-hour, 1-day, 7-day, and 30-day periods online. Go to https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php and you’ll see a list of links to data sets for various time periods, focusing on earthquakes of different magnitudes. Download one of these data sets, and create a visualization of the most recent earthquake activity.
+from plotly.graph_objs import Scattergeo, Layout
+from plotly import offline
+
+filename = "data/jan_2023_all_month.geojson"
+with open(filename) as f:
+    jan_eq = json.load(f)
+eq_dicts = jan_eq['features']
+eq_dicts[0]
+
+mags, lons, lats, hover_texts = [],[],[],[]
+for eq in eq_dicts:
+    mags.append(eq['properties']['mag'])
+    lons.append(eq['geometry']['coordinates'][0])
+    lats.append(eq['geometry']['coordinates'][1])
+    hover_texts.append(eq['properties']['title'])
+    
+mags[6136] = 1
+for idx,mag in enumerate(mags):
+    if mag < 0 :
+        print(idx,mag,mag*-1)
+        
+        
+
+data=[{
+    'type': 'scattergeo',
+    'lon': lons,
+    'lat': lats, 
+    'text': hover_texts,
+    'marker': {
+        'size': [5*mag for mag in mags],
+        'color': mags, 
+        'colorscale': 'Viridis', 
+        'reversescale': True, 
+        'colorbar': {'title': 'Magnitude'},
+    } 
+}]
+my_layout = Layout(title='Jan Global Earthquakes')
+fig = {'data': data, 'layout': my_layout}
+offline.plot(fig, filename='jan_global_earthquakes.html')
 
 # 16-9. World Fires: In the resources for this chapter, you’ll find a file called world_fires_1_day.csv. This file contains information about fires burning in dif- ferent locations around the globe, including the latitude and longitude, and the brightness of each fire. Using the data processing work from the first part of this chapter and the mapping work from this section, make a map that shows which parts of the world are affected by fires.
 # You can download more recent versions of this data at https://earthdata .nasa.gov/earth-observation-data/near-real-time/firms/active-fire-data/. You can find links to the data in CSV format in the TXT section.
+
+filename = "data/world_fires_1_day.csv"
+with open(filename) as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
+    print(header_row)
+
+    lats, lons, brights, hover_texts = [], [], [], []
+    for row in reader:
+        lats.append(row[0])
+        lons.append(row[1])
+        brights.append(float(row[2]))
+        hover_texts.append(row[6])
+
+data = [{
+    'type': 'scattergeo',
+    'lon': lons, 
+    'lat': lats, 
+    'text': hover_texts, 
+    'marker': {
+        'size': [brightness/30 for brightness in brights],
+        'color': brights, 
+        'colorscale': 'oranges', 
+        'reversescale': True, 
+        'colorbar': {'title': 'Brightness'},
+    }
+}]
+my_layout = Layout(title='Day of Fires')
+fig = {'data': data, 'layout': my_layout}
+offline.plot(fig, filename='1_day_fires.html')
